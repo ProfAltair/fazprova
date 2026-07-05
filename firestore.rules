@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function incoming() {
+      return request.resource.data;
+    }
+    
+    function existing() {
+      return resource.data;
+    }
+    
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+    function isValidExam(exam) {
+      return exam.title is string && exam.title.size() <= 200
+        && exam.subject is string && exam.subject.size() <= 100
+        && exam.grade is string && exam.grade.size() <= 100
+        && exam.difficulty is string && exam.difficulty.size() <= 50
+        && exam.format is string && exam.format.size() <= 50
+        && exam.createdBy is string && exam.createdBy.size() <= 128
+        && exam.createdBy == request.auth.uid;
+    }
+
+    match /exams/{examId} {
+      allow get: if true; // Allowed for shared viewing
+      allow list: if isSignedIn() && resource.data.createdBy == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(examId) && isValidExam(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && isValidId(examId) && isValidExam(incoming()) && incoming().createdBy == existing().createdBy && incoming().createdAt == existing().createdAt;
+      allow delete: if isSignedIn() && resource.data.createdBy == request.auth.uid;
+    }
+  }
+}

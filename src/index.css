@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Estilos de Impressão de Prova */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+  }
+  
+  /* Esconde elementos não imprimíveis */
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Força a visualização do conteúdo imprimível */
+  .print-only {
+    display: block !important;
+  }
+  
+  /* Evita quebra de questão no meio da folha */
+  .print-question-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-bottom: 1.5rem !important;
+    padding: 1rem !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 0.375rem !important;
+  }
+  
+  /* Margens da página de impressão */
+  @page {
+    margin: 2cm;
+    size: A4;
+  }
+}

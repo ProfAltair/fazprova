@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Construtor de Prova",
+  "description": "Ajuda professores a elaborar avaliações personalizadas rapidamente com inteligência artificial, permitindo exportar arquivos em PDF com gabarito automático, análise estatística e adaptações pedagógicas seguras na nuvem.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
